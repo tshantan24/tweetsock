@@ -1,0 +1,20 @@
+{% extends 'main/header.html' %}
+
+{% block content %}
+  {% load staticfiles %}
+
+
+  <div class="container">
+    <div class="row z-depth-5" id="search-div">
+      <div class="left col s10">
+        <input type="text" placeholder="Enter twitter handle of user" />
+      </div>
+      <div class="right col s2">
+        <a href="#">
+          <i class="material-icons">search</i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

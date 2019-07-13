@@ -1,0 +1,45 @@
+body {
+    background: url('../../main/images/birds.png');
+    background-size: 100% 100%; 
+}
+
+.container {
+    margin-top: 50px;
+}
+
+#search-div {
+    /* border: 1px solid black; */
+    border-radius: 30px;
+    /* padding: 0 30px; */
+    max-height: 60px;
+    background: white;
+    width: 65%;
+}
+
+#search-div i {
+    font-size: 55px;
+    display: inline-block;
+    /* border: 1px solid red; */
+    margin-bottom: 10px;
+    color: white;
+
+    width: 100%;
+    margin: auto;
+}
+
+.left, .right {
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    max-height: 60px;
+}
+
+.right {
+    background: #1A237E;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.left {
+    padding: 0 .75rem 0 2rem !important;
+}
