@@ -19,10 +19,10 @@ def get_tweets(handle):
 		code=re.findall('\d+',e.reason)
 		code = int(code[0])
 		if code == 404:
-			return -1
+			return -1 #if the user does not exist
 		elif code == 401:
-			return -2
+			return -2 #if tweets are protected and not accessible
 	if len(tweets)<200:
-		return -3	
+		return -3	#if number of tweets is not 200
 		
-	return tweets
+	return pd.Series(tweets)
