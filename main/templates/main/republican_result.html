@@ -1,0 +1,16 @@
+{% extends 'main/header.html' %}
+{% block republican %}
+  <!-- <div id="load"></div> This is for the loading animation, use when its retrieving tweets, also uncomment in animations.js -->
+
+  <div id="rep"></div>
+  <div id="confetti"></div>
+  {% load staticfiles %}
+  <script type="text/javascript" src="{% static 'main/js/repo.js' %}"></script>
+  <script type="text/javascript" src="{% static 'main/animations/rep.json' %}"></script>
+  <script type="text/javascript" src="{% static 'main/animations/7434-confetti.json' %}"></script>
+  <script type="text/javascript" src="{% static 'main/animations/295-refresh.json' %}"></script>
+  <!-- <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.4/lottie.min.js'></script> -->
+  <script type="text/javascript" src="{% static 'main/js/animations-repo.js' %}"></script>
+
+{% endblock %}
+

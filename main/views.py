@@ -3,4 +3,4 @@ from django.http import HttpResponse
 # Create your views here.
 
 def homepage(request):
-    return render(request=request, template_name='main/index.html', context=None)
+    return render(request=request, template_name='main/republican_result.html', context=None) #context={'party': party}, import the model

@@ -5,22 +5,32 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}" />
-  </head>
 
+  </head>
   <body>
     <nav>
       <div class="nav-wrapper pink accent-3">
         <a href="#" class="brand-logo center ">Windsock</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
         </ul>
-      </div>
+      </div>  
     </nav>
-
-    {% block content %}
+    <div class="container">
+      <div class="row z-depth-5" id="search-div">
+        <div class="left col s10">
+          <input type="text" placeholder="Enter twitter handle of user" />
+        </div>
+        <div class="right col s2">
+          <a href="#">
+            <i class="material-icons">search</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% block republican %}
     {% endblock %}
-    
   </body>
 </html>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+

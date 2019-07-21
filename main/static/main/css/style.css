@@ -43,3 +43,31 @@ body {
 .left {
     padding: 0 .75rem 0 2rem !important;
 }
+
+#dem{
+    position: relative;
+    height: 60%;
+    width: 60%;
+    margin: auto;
+    bottom: 100px;
+}
+
+#confetti{
+    position: relative;
+    margin: auto;
+    bottom: 450px;
+}
+
+#load{
+    margin: auto;
+    position: relative;
+    bottom: 200px;
+}
+
+#rep{
+    position: relative;
+    height: 60%;
+    width: 60%;
+    margin: auto;
+    bottom: 100px;
+}
