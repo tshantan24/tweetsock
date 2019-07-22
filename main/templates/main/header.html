@@ -17,20 +17,32 @@
     </nav>
     <div class="container">
       <div class="row z-depth-5" id="search-div">
-        <div class="left col s10">
-          <input type="text" placeholder="Enter twitter handle of user" />
-        </div>
-        <div class="right col s2">
-          <a href="#">
-            <i class="material-icons">search</i>
-          </a>
-        </div>
+        <form id="get_handle" method="GET"> 
+          <div class="left col s10">
+            <input type="text" placeholder="Enter twitter handle of user" />
+          </div>
+          <div class="right col s2">
+            <input type="submit" class="material-icons" value="search"/>
+          </div>
+        </form>
+        <p id="response_msg"></p> 
       </div>
     </div>
-    {% block republican %}
+    {% block democrat %}
+    {% endblock %}
+    {% block republic %}
     {% endblock %}
   </body>
 </html>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+<script type="text/javascript">
+  $('#get_handle').on('submit',function(e){
+    e.preventDefault();
+    var handle = $(this).find('input').val();
+    $.get('/test/',
+          {'handle': handle},   
+    );
+}); 
+</script>

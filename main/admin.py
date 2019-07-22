@@ -1,9 +1,9 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import handles
+from .models import *
 # Register your models here.
 
 
-@admin.register(handles)
+@admin.register(Handle)
 class ViewAdmin(ImportExportModelAdmin):
-   pass
+	pass
