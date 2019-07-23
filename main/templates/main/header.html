@@ -5,44 +5,22 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}" />
-
   </head>
+
   <body>
     <nav>
       <div class="nav-wrapper pink accent-3">
         <a href="#" class="brand-logo center ">Windsock</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
         </ul>
-      </div>  
-    </nav>
-    <div class="container">
-      <div class="row z-depth-5" id="search-div">
-        <form id="get_handle" method="GET"> 
-          <div class="left col s10">
-            <input type="text" placeholder="Enter twitter handle of user" />
-          </div>
-          <div class="right col s2">
-            <input type="submit" class="material-icons" value="search"/>
-          </div>
-        </form>
-        <p id="response_msg"></p> 
       </div>
-    </div>
-    {% block democrat %}
+    </nav>
+
+    {% block content %}
     {% endblock %}
-    {% block republic %}
-    {% endblock %}
+    
   </body>
 </html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script type="text/javascript">
-  $('#get_handle').on('submit',function(e){
-    e.preventDefault();
-    var handle = $(this).find('input').val();
-    $.get('/test/',
-          {'handle': handle},   
-    );
-}); 
-</script>
