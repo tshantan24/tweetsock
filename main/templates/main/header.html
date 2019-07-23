@@ -5,22 +5,101 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}" />
-  </head>
 
+  </head>
   <body>
     <nav>
       <div class="nav-wrapper pink accent-3">
         <a href="#" class="brand-logo center ">Windsock</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
         </ul>
-      </div>
+      </div>  
     </nav>
+    <div class="container">
+      <div class="row z-depth-5" id="search-div">
+        <form id="get_handle" method="POST" action="/test/"> 
+          <!-- {% csrf_token %}   -->
+          <div class="left col s10">
+            <input type="text" id="handle" placeholder="Enter twitter handle of user" />
+          </div>
+          <div class="right col s2">
+            <input type="submit" class="material-icons" value="search"/>
+          </div>
+        </form>
+        <p id="response_msg"></p> 
+      </div>
 
-    {% block content %}
-    {% endblock %}
+      <div id="rep" class="row">
+        <div id="confetti">
+          {% load staticfiles %}
+          <script type="text/javascript" src="{% static 'main/js/repo.js' %}"></script>
+          <script type="text/javascript" src="{% static 'main/animations/rep.json' %}"></script>
+          <script type="text/javascript" src="{% static 'main/animations/7434-confetti.json' %}"></script>
+          <!-- <script type="text/javascript" src="{% static 'main/animations/295-refresh.json' %}"></script> -->
+          <!-- <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.4/lottie.min.js'></script> -->
+          <script type="text/javascript" src="{% static 'main/js/animations-repo.js' %}"></script>
+        </div>
+      </div>
+      <!-- <div id="load"></div> This is for the loading animation, use when its retrieving tweets, also uncomment in animations.js -->
+  
+      <div id="dem" class="row">
+        <div id="confetti">
+          {% load staticfiles %}
+          <script type="text/javascript" src="{% static 'main/js/demo.js' %}"></script>
+          <script type="text/javascript" src="{% static 'main/animations/DEMOCRAT.json' %}"></script>
+          <script type="text/javascript" src="{% static 'main/animations/7434-confetti.json' %}"></script>
+          <!-- <script type="text/javascript" src="{% static 'main/animations/295-refresh.json' %}"></script> -->
+          <!-- <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.4/lottie.min.js'></script> -->
+          <script type="text/javascript" src="{% static 'main/js/animations-demo.js' %}"></script>
+        </div>
+      </div>
+    </div>
+
     
+    <!-- {% block result %}
+    {% endblock %} -->
+    <!-- {% block republic %}
+    {% endblock %} -->
   </body>
 </html>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  $(document).ready(function() {
+    console.log('Initital')
+    $('#rep').hide();
+    $('#dem').hide();
+  })
+</script>
+<script type="text/javascript">
+  $('#get_handle').on('submit',function(e){
+    e.preventDefault();
+    var handle = $(this).find('input').val();
+    /* $.get('/test/',
+          {'handle': handle},   
+    ); */
+
+    $.ajax({
+      type: "get",
+      url: 'test',
+      datatype:'json',
+      data: {
+       'handle': handle,
+       },
+    }).done(function(data) {
+      console.log(data)
+      if (data.party == 0) {
+        console.log('Democrat');
+        $('#rep').hide();
+        $('#dem').show();
+      } else if (data.party == 1) {
+        console.log('Republican');
+        $('#dem').hide();
+        $('#rep').show();
+      } else {
+        alert('Handle does not exist. Please enter another handle.')
+      }
+    })
+}); 
+</script>
