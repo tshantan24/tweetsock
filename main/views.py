@@ -5,7 +5,7 @@ from .models import Handle
 # Create your views here.
 
 def homepage(request):
-    return render(request=request, template_name='main/header.html', context=None) #context={'party': party}, import the model
+    return render(request=request, template_name='main/header.html', context=None) 
 
 
 def handle_exists(request):
