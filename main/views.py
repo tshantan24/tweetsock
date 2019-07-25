@@ -22,16 +22,27 @@ def getParty(request):
 
 
     """
-    data = {'msg':'',
+    data = {'msg':'False',
     'party': 'None'}
     if request.method == 'GET':
         hndle = request.GET.get('handle')
         if handle_exists.handle_exists(hndle):
             test = handles.objects.get(handle = hndle)
             data['party'] = test.party
-            data['msg'] = 'She exists'
+            data['msg'] = 'True'
         else:
-            data['msg'] = "Hello"
+            tweets = get_tweets.get_tweets(hndle)
+            if tweets == -1:
+                data['msg'] = 'User does not exist'
+            elif tweets == -2:
+                data['msg'] = 'Tweets are protected'
+            elif tweets == -3:
+                data['msg'] = 'Not enough tweets'
+
+                #SHANTAN
+            data['party'] = model(tweets)
+            #SHANTAN
+
     """
         Fake model of the form
 
