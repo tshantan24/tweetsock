@@ -1,28 +1,44 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Handle
+from . import fakemodel
+from .models import handles
+from tweets import get_tweets
+from tweets import handle_exists
+import random
+import pandas as pd
+import numpy as np
 # Create your views here.
 
 def homepage(request):
-    return render(request=request, template_name='main/header.html', context=None) 
+    return render(request=request, template_name='main/index.html', context=None)
+
+def getParty(request):
+    """
+        Write code to get 200 tweets of the handle given and check if there are 200 tweets
+        Also handle errors to check if the twitter handle exists or not
+        If the handle does not exist, then make it return -1 and in Django, show the user an error message saying that
+        this user does not exist.
 
 
-def handle_exists(request):
-	if request.method == 'GET':
-		handle = request.GET['handle']
-		print("Handle: " + handle)
-		list_of_handles_raw = list(Handle.objects.values('handle','party'))
-		list_of_handles = []
+    """
+    data = {'msg':'',
+    'party': 'None'}
+    if request.method == 'GET':
+        hndle = request.GET.get('handle')
+        if handle_exists.handle_exists(hndle):
+            test = handles.objects.get(handle = hndle)
+            data['party'] = test.party
+            data['msg'] = 'She exists'
+        else:
+            data['msg'] = "Hello"
+    """
+        Fake model of the form
 
-		for i in range(len(list_of_handles_raw)):
-			list_of_handles.append(list_of_handles_raw[i]['handle'])
+        percentage = predict(tweets)  # This will give the percentage on how likely the handle is a democrat.
 
-		if handle in list_of_handles:
-			test = Handle.objects.get(handle = handle)
-			party = test.party
+        For now this is a dummy function
+    """
 
-		else:
-			return JsonResponse({ 'party': -1 })
-		
-	return JsonResponse({ 'party': party })
+    percentage = random.uniform(0, 1)
+    return JsonResponse(data)
