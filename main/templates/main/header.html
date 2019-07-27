@@ -13,14 +13,104 @@
         <a href="#" class="brand-logo center ">Windsock</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
         </ul>
-      </div>
+      </div>  
     </nav>
 
-    {% block content %}
-    {% endblock %}
+    <div class="row z-depth-5" id="search-div">
+      <form id="get_handle" method="POST" action="/test/"> 
+        <div class="left col s10">
+          <input type="text" id="handle" placeholder="Enter twitter handle of user" />
+        </div>
+        <div class="right col s2">
+          <input type="submit" class="large material-icons" value="search"/>
+        </div>
+      </form>
+    </div>
+
+    <div id="result"  class="row">
+      <div id="dem"></div>
+      <div id="confetti"></div>
+      <div id="rep"></div>
+      <div id="confetti-2"></div>
+    </div>
     
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        console.log('Initital')
+        $('#rep').hide();
+        $('#dem').hide();
+        $('#confetti').hide();
+        $('#confetti-2').hide();
+      });
+
+      $('#handle').focus(function(e) {
+        $('#rep').hide();
+        $('#dem').hide();
+        $('#confetti').hide();
+        $('#confetti-2').hide();
+      })
+    </script>
+    <script>
+      $('#get_handle').on('submit',function(e){
+        e.preventDefault();
+        var handle = $(this).find('input').val();
+        /* $.get('/test/',
+            {'handle': handle},   
+        ); */
+        $.ajax({
+          type: "get",
+          url: 'test',
+          datatype:'jsonp',
+          data: {
+          'handle': handle,
+          },
+        }).done(function(data) {
+          console.log(data)
+          if (data.party == 0) {
+            console.log('Democrat');
+            $('#rep').hide();
+            $('#confetti-2').hide();
+            $('#dem').show();
+            $('#confetti').show();
+          } else if (data.party == 1) {
+            console.log('Republican');
+            $('#dem').hide();
+            $('#confetti').hide();
+            $('#rep').show();
+            $('#confetti-2').show();
+          } else {
+            $('#rep').hide();
+            $('#dem').hide();
+            $('#confetti').hide();
+            $('#confetti-2').hide();
+            if (data.msg == -1) {
+              alert('Handle does not exist. Please enter another handle.')
+            } else if (data.msg == -2) {
+              alert('Tweets are protected. They cannot be accessed.')
+            } else if (data.msg == -3) {
+              alert('This handle does not have enough tweets to make a prediction. Please enter another handle.')
+            }
+          }
+        })
+      }); 
+    </script>
+    <script type="text/javascript" src="{% static 'main/js/repo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/animations/rep.json' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/animations-repo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/demo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/animations/DEMOCRAT.json' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/animations-demo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/animations/7434-confetti.json' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/confetti.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
+  <!-- <script type="text/javascript" src="{% static 'main/animations/295-refresh.json' %}"></script> -->
+  <!-- <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.4/lottie.min.js'></script>-->
 </html>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+  
+        
+  
+  
