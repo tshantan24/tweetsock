@@ -1,29 +1,20 @@
+from timeit import default_timer as timer
+from .model import predict
+from .models import Handle
+from tweets.get_tweets import get_tweets
+from tweets.handle_exists import handle_exists
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.http import JsonResponse
-from . import fakemodel
-from .models import handles
-from tweets import get_tweets
-from tweets import handle_exists
-import random
-import pandas as pd
-import numpy as np
 # Create your views here.
 
 def homepage(request):
     return render(request=request, template_name='main/index.html', context=None)
 
+
 def getParty(request):
-    """
-        Write code to get 200 tweets of the handle given and check if there are 200 tweets
-        Also handle errors to check if the twitter handle exists or not
-        If the handle does not exist, then make it return -1 and in Django, show the user an error message saying that
-        this user does not exist.
 
-
-    """
-    data = {'msg':'False',
-    'party': 'None',
+    data = {'msg':0,
+    'party': -1,
     'keywords':'None',
     'key_pos':'None',
     'key_neg':'None',
@@ -31,23 +22,21 @@ def getParty(request):
     'total_neg':'None',
     'hashtags':'None',
     'hashtag_count':'None',}
+
     if request.method == 'GET':
         hndle = request.GET.get('handle')
-        if handle_exists.handle_exists(hndle):
-            test = handles.objects.get(handle = hndle)
-            data['party'] = test.party
-            data['msg'] = 'True'
-        else:
-            tweet = get_tweets.get_tweets(hndle)
-            tweets = [t.full_text for t in tweet]
-            if tweets == -1:
-                data['msg'] = 'User does not exist'
-            elif tweets == -2:
-                data['msg'] = 'Tweets are protected'
-            elif tweets == -3:
-                data['msg'] = 'Not enough tweets'
+        print('Handle: ' + hndle)
 
-                #SHANTAN
+        if handle_exists(hndle):
+            test = Handle.objects.get(handle = hndle)
+            data['party'] = test.party
+            data['msg'] = 1
+
+        else:
+            start_time = timer()
+            code, tweet = get_tweets(hndle)
+            end_time = timer()
+            tweets = [t.full_text for t in tweet]
             keywords,pos,neg,total_pos,total_neg = handle_exists.get_keywords(tweets)
             hashtags,hashcounts = handle_exists.get_hashtags(tweet)
             data['keywords'] = keywords
@@ -57,16 +46,30 @@ def getParty(request):
             data['total_neg'] = total_neg
             data['hashtags'] = hashtags
             data['hashtag_count'] = hashcounts
-            #SHANTAN
 
-    """
-        Fake model of the form
+            print("Time to get tweets: " + str(end_time-start_time))
+            if code == -1:
+                data['msg'] = -1  #Handle doesn't exist
 
-        percentage = predict(tweets)  # This will give the percentage on how likely the handle is a democrat.
+            elif code == -2:
+                data['msg'] = -2 #Tweets are protected and not accessible
 
-        For now this is a dummy function
-    """
+            elif code == -3:
+                data['msg'] = -3 #Number of tweets is not 100
 
-    percentage = random.uniform(0, 1)
-    data['party'] = percentage
+            elif code == 0:
+                pre_time1 = timer()
+                data['party'] = predict(tweets)
+                pre_time2 = timer()
+                print("Time taken to predict: " + str(pre_time2-pre_time1))
+
+                if data['party'] == 1:
+                    data['msg'] == "Republican"
+
+                else:
+                    data['msg'] == "Democrat"
+
+                new_handle = Handle(handle=hndle, party=data['party'])
+                new_handle.save()
+
     return JsonResponse(data)
