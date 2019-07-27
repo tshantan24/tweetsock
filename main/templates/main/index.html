@@ -6,44 +6,15 @@
 
   <div class="container">
     <div class="row z-depth-5" id="search-div">
-      <form id="handles">
       <div class="left col s10">
-        <input type="text" placeholder="Enter twitter handle of user" id="handle"/>
+        <input type="text" placeholder="Enter twitter handle of user" />
       </div>
       <div class="right col s2">
-          <input type="submit" class="material-icons" value="search"/>
+        <a href="#">
+          <i class="material-icons">search</i>
+        </a>
       </div>
-</form>
-<h1 id="party"></h1>
-<h1 id="keywords"></h1>
-<h1 id="pos"></h1>
-<h1 id="neg"></h1>
-<h1 id="total_pos"></h1>
-<h1 id="total_neg"></h1>
-<h1 id="hashtags"></h1>
-<h1 id="hashcounts"></h1>
     </div>
   </div>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script type="text/javascript">
 
-  $(document).on('submit','#handles',function(e){
-
-    e.preventDefault();
-    var handle = $(this).find('input').val();
-    $.get('/direction/',
-          {'handle': handle},
-          function(response){ $('#party').text(response.party);
-                              $('#keywords').text(response.keywords);
-                              $('#pos').text(response.key_pos);
-                              $('#neg').text(response.key_neg);
-                              $('#total_pos').text(response.total_pos);
-                              $('#total_neg').text(response.total_neg);
-                              $('#hashtags').text(response.hashtags);
-                              $('#hashcounts').text(response.hashtag_count);
-    });
-  });
-
-
-  </script>
 {% endblock %}

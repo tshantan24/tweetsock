@@ -21,5 +21,5 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
-    path('test/', views.handle_exists, name='handle_exists'),
+    path('test/', views.getParty, name='getParty'),
 ]

@@ -1,5 +1,5 @@
 import pandas as pd 
-import numpy as np 
+# import numpy as np 
 import tweepy 
 import re
 
@@ -14,15 +14,15 @@ api = tweepy.API(auth)
 
 def get_tweets(handle):
 	try:
-		tweets = [tweet.full_text for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(500) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
+		tweets = [tweet.full_text for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(200) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
 	except tweepy.TweepError as e:
 		code=re.findall('\d+',e.reason)
 		code = int(code[0])
 		if code == 404:
-			return -1 #if the user does not exist
+			return -1, None #if the user does not exist
 		elif code == 401:
-			return -2 #if tweets are protected and not accessible
-	if len(tweets)<200:
-		return -3	#if number of tweets is not 200
+			return -2, None #if tweets are protected and not accessible
+	if len(tweets)<100:
+		return -3, None	#if number of tweets is not 100
 		
-	return pd.Series(tweets)
+	return 0, pd.Series(tweets)
