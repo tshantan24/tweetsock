@@ -13,11 +13,11 @@
         <a href="#" class="brand-logo center ">Windsock</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
         </ul>
-      </div>  
+      </div>
     </nav>
 
     <div class="row z-depth-5" id="search-div">
-      <form id="get_handle" method="POST" action="/test/"> 
+      <form id="get_handle" method="POST" action="/test/">
         <div class="left col s10">
           <input type="text" id="handle" placeholder="Enter twitter handle of user" />
         </div>
@@ -33,8 +33,8 @@
       <div id="rep"></div>
       <div id="confetti-2"></div>
     </div>
-    
-    
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
       $(document).ready(function() {
@@ -44,7 +44,6 @@
         $('#confetti').hide();
         $('#confetti-2').hide();
       });
-
       $('#handle').focus(function(e) {
         $('#rep').hide();
         $('#dem').hide();
@@ -57,7 +56,7 @@
         e.preventDefault();
         var handle = $(this).find('input').val();
         /* $.get('/test/',
-            {'handle': handle},   
+            {'handle': handle},
         ); */
         $.ajax({
           type: "get",
@@ -94,7 +93,36 @@
             }
           }
         })
-      }); 
+      });
+    </script>
+    <h1 id="party"></h1>
+    <h1 id="keywords"></h1>
+    <h1 id="pos"></h1>
+    <h1 id="neg"></h1>
+    <h1 id="total_pos"></h1>
+    <h1 id="total_neg"></h1>
+    <h1 id="hashtags"></h1>
+    <h1 id="hashcounts"></h1>
+    <script type="text/javascript">
+
+    $(document).on('submit','#handles',function(e){
+
+      e.preventDefault();
+      var handle = $(this).find('input').val();
+      $.get('/direction/',
+            {'handle': handle},
+            function(response){ $('#party').text(response.party);
+                                $('#keywords').text(response.keywords);
+                                $('#pos').text(response.key_pos);
+                                $('#neg').text(response.key_neg);
+                                $('#total_pos').text(response.total_pos);
+                                $('#total_neg').text(response.total_neg);
+                                $('#hashtags').text(response.hashtags);
+                                $('#hashcounts').text(response.hashtag_count);
+      });
+    });
+
+
     </script>
     <script type="text/javascript" src="{% static 'main/js/repo.js' %}"></script>
     <script type="text/javascript" src="{% static 'main/animations/rep.json' %}"></script>
@@ -109,8 +137,3 @@
   <!-- <script type="text/javascript" src="{% static 'main/animations/295-refresh.json' %}"></script> -->
   <!-- <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.4/lottie.min.js'></script>-->
 </html>
-    
-  
-        
-  
-  
