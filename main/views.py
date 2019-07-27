@@ -23,7 +23,14 @@ def getParty(request):
 
     """
     data = {'msg':'False',
-    'party': 'None'}
+    'party': 'None',
+    'keywords':'None',
+    'key_pos':'None',
+    'key_neg':'None',
+    'total_pos':'None',
+    'total_neg':'None',
+    'hashtags':'None',
+    'hashtag_count':'None',}
     if request.method == 'GET':
         hndle = request.GET.get('handle')
         if handle_exists.handle_exists(hndle):
@@ -31,7 +38,8 @@ def getParty(request):
             data['party'] = test.party
             data['msg'] = 'True'
         else:
-            tweets = get_tweets.get_tweets(hndle)
+            tweet = get_tweets.get_tweets(hndle)
+            tweets = [t.full_text for t in tweet]
             if tweets == -1:
                 data['msg'] = 'User does not exist'
             elif tweets == -2:
@@ -40,7 +48,15 @@ def getParty(request):
                 data['msg'] = 'Not enough tweets'
 
                 #SHANTAN
-            data['party'] = model(tweets)
+            keywords,pos,neg,total_pos,total_neg = handle_exists.get_keywords(tweets)
+            hashtags,hashcounts = handle_exists.get_hashtags(tweet)
+            data['keywords'] = keywords
+            data['key_pos'] = pos
+            data['key_neg'] = neg
+            data['total_pos'] = total_pos
+            data['total_neg'] = total_neg
+            data['hashtags'] = hashtags
+            data['hashtag_count'] = hashcounts
             #SHANTAN
 
     """
@@ -52,4 +68,5 @@ def getParty(request):
     """
 
     percentage = random.uniform(0, 1)
+    data['party'] = percentage
     return JsonResponse(data)
