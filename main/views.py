@@ -34,10 +34,12 @@ def getParty(request):
 
         else:
             start_time = timer()
-            code, tweet = get_tweets(hndle)
+            code, tweets, tweet_objs = get_tweets(hndle)
             end_time = timer()
 
             print("Time taken to get tweets: " + str(end_time-start_time))
+            print()
+
             if code == -1:
                 data['msg'] = -1  #Handle doesn't exist
 
@@ -49,22 +51,27 @@ def getParty(request):
 
             elif code == 0:
 
-                tweets = [t.full_text for t in tweet]
-                keywords, pos, neg, total_pos, total_neg = get_keywords(tweets)
-                hashtags, hashcounts = get_hashtags(tweet)
+                start_time2 = timer()
+                keywords, pos, neg, total_pos, total_neg = get_keywords(list(tweets))
+                top_hashtags, hashcounts = get_hashtags(tweet_objs)
+                end_time2 = timer()
+
+                print("Time taken to get stats: " + str(end_time2-start_time2))
+                print()
 
                 data['keywords'] = keywords
                 data['key_pos'] = pos
                 data['key_neg'] = neg
                 data['total_pos'] = total_pos
                 data['total_neg'] = total_neg
-                data['hashtags'] = hashtags
+                data['hashtags'] = top_hashtags
                 data['hashtag_count'] = hashcounts
-                
+
                 pre_time1 = timer()
                 data['party'] = predict(tweets)
                 pre_time2 = timer()
                 print("Time taken to predict: " + str(pre_time2-pre_time1))
+                print()
 
                 if data['party'] == 1:
                     data['msg'] == "Republican"

@@ -11,6 +11,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from tensorflow.keras.layers import Dense, Dropout, LSTM, Activation, Embedding, Bidirectional
 
+
 TOKENIZER_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)),'main/trained/tokenizer.pickle')
 META_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)),'main/trained/meta.csv')
 WEIGHTS_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)),'main/trained/weights.h5')
@@ -48,7 +49,7 @@ def predict(tweets):
     print(trained_model.summary())
 
     tweets_processed = pre_process(tweets)
-    padded_tweets = encode_and_pad(tweets_processed, tokenizer)
+    padded_tweets = encode_and_pad(tweets_processed, tokenizer, max_sent_len)
     predictions = trained_model.predict_classes(padded_tweets)
 
     rep_per = sum(predictions)
