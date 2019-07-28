@@ -53,7 +53,7 @@ def pre_process(X, **kwargs):
     return x
 
 
-def encode_and_pad(X, t):
+def encode_and_pad(X, t, max_sent_len):
     encoded_x = t.texts_to_sequences(X)
     padded_x = pad_sequences(encoded_x, maxlen=max_sent_len, padding='post')
     return padded_x
@@ -89,7 +89,7 @@ def train():
     emb_dim = 75
     print("Embedding Dimensions: {}".format(emb_dim))
 
-    padded_X_train = encode_and_pad(X_train, t)
+    padded_X_train = encode_and_pad(X_train, t, max_sent_len)
 
     x_train, x_val, Y_train, y_val = train_test_split(padded_X_train, y_train, test_size=0.1, random_state=420)
 
