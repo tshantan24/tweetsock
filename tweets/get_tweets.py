@@ -1,7 +1,6 @@
-import pandas as pd 
-# import numpy as np 
-import tweepy 
 import re
+import tweepy 
+import pandas as pd 
 
 consumer_key = "JbhkSllQEEowFT000MRpEDaWq"
 consumer_secret = "VoM097AKZtxSBnWvwP8MV39AGOuG1JArHf87wLpRF2L5CMZwF4"
@@ -14,7 +13,7 @@ api = tweepy.API(auth)
 
 def get_tweets(handle):
 	try:
-		tweets = [tweet.full_text for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(200) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
+		tweets = [tweet for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(200) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
 	except tweepy.TweepError as e:
 		code=re.findall('\d+',e.reason)
 		code = int(code[0])
