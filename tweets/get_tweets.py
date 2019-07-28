@@ -11,17 +11,24 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret) 
 api = tweepy.API(auth) 
 
+
 def get_tweets(handle):
 	try:
-		tweets = [tweet for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(200) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
+		tweet_objs = [tweet for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(300) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
+		tweets = [tweet.full_text for tweet in tweet_objs]
+
 	except tweepy.TweepError as e:
 		code=re.findall('\d+',e.reason)
 		code = int(code[0])
 		if code == 404:
-			return -1, None #if the user does not exist
+			return -1, None, None #if the user does not exist
 		elif code == 401:
-			return -2, None #if tweets are protected and not accessible
-	if len(tweets)<100:
-		return -3, None	#if number of tweets is not 100
+			return -2, None, None #if tweets are protected and not accessible
+
+	print("Len of tweets: " + str(len(tweets)))
+	print()
+
+	if len(tweets)<70:
+		return -3, None, None	#if number of tweets is not 100
 		
-	return 0, pd.Series(tweets)
+	return 0, pd.Series(tweets), tweet_objs
