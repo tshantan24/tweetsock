@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from string import punctuation
+from model.train import pre_process, encode_and_pad
 from tensorflow.keras import Sequential
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -24,46 +25,6 @@ meta = pd.read_csv(META_PATH, index_col=0)
 vocab_size = meta.loc['Model 1', 'Vocab Size']
 max_sent_len = meta.loc['Model 1', 'Max Sent Length']
 emb_dim = meta.loc['Model 1', 'Emb Dim']
-
-
-def remove_punctuations(sentence):
-    return regex.sub('', sentence)
-
-
-def de_Emojify(inputString):
-    return inputString.encode('ascii', 'ignore').decode('ascii')
-
-
-def pre_process(X, **kwargs):
-    # Replaces special characters
-    X = X.str.replace(r"http\S+", "")
-    X = X.str.replace(r"http", "")
-    X = X.str.replace(r"@\S+", "")
-    X = X.str.replace('&amp;', "and")
-    X = X.str.replace('\xa0', " ")
-    X = X.str.replace('\u2003', " ")
-    X = X.str.replace(r"\\u\S+", "")
-
-    X = X.apply(remove_punctuations)
-    X = X.str.replace(r"@", "at")
-    X = X.apply(de_Emojify)
-    X = X.str.lower()
-    
-    #Removes null values
-    ind = list(X[X==""].index)
-    x = X.drop(ind)
-    
-    if 'Y' in kwargs:
-        y = kwargs['Y'].drop(ind)
-        return x, y
-        
-    return x
-
-
-def encode_and_pad(X):
-    encoded_x = tokenizer.texts_to_sequences(X)
-    padded_x = pad_sequences(encoded_x, maxlen=max_sent_len, padding='post')
-    return padded_x
 
 
 def get_model():
@@ -87,7 +48,7 @@ def predict(tweets):
     print(trained_model.summary())
 
     tweets_processed = pre_process(tweets)
-    padded_tweets = encode_and_pad(tweets_processed)
+    padded_tweets = encode_and_pad(tweets_processed, tokenizer)
     predictions = trained_model.predict_classes(padded_tweets)
 
     rep_per = sum(predictions)
