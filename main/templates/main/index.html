@@ -5,7 +5,7 @@
 
 
   <div class="container">
-    <div class="row z-depth-5" id="search-div">
+    <div class="row" id="search-div">
       <div class="left col s10">
         <input type="text" id="handle" placeholder="Enter twitter handle of user" />
       </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div id="alerts" class="row">
+    <div id="alerts" class="row hidden">
       <div class="alert">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <span id="error-message"></span>
@@ -31,13 +31,18 @@
       <div id="confetti-2"></div>
     </div>
 
-    <div id="stats" class="row">
-
+    <div id="stats" class="row hidden">
+      <h2 style="display: block; margin:auto; width:50%; text-align:center;">STATISTICS</h2>
+      <canvas id="keywords_chart"></canvas><br>
+      <canvas id="polarity_chart"></canvas><br>
     </div>
 
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+    <script type="text/javascript" src="{% static 'main/js/stats.js' %}"></script> 
     <script>
       $(document).ready(function() {
         console.log('Initital');
@@ -47,6 +52,7 @@
         $('#confetti').hide();
         $('#confetti-2').hide();
         $('#alerts').hide();
+        $('#stats').hide();
 
       });
 
@@ -57,6 +63,7 @@
         $('#confetti').hide();
         $('#confetti-2').hide();
         $('#alerts').hide();
+        $('#stats').hide();
 
       });
     </script>
@@ -72,12 +79,13 @@
           data: {
           'handle': handle,
           },
-        }).done(function(data) {
-          console.log(data);
+        }).done(function(response) {
+          console.log(response);
           $('#load').hide();
           $('#alerts').hide();
+          $('#stats').hide();
 
-          if (data.party == 0) { //If the result is Democrat
+          if (response.party == 0) { //If the result is Democrat
 
             console.log('Democrat');
             $('#rep').hide();
@@ -85,12 +93,21 @@
             $('#dem').show();
             $('#confetti').show();
 
-          } else if (data.party == 1) { //If the result is Republican
+            $('#stats').show();
+            keywordsChart("keywords_chart", response.keywords, response.key_pos, response.key_neg);
+            polarityChart("polarity_chart", response.total_pos, response.total_neg);
+
+
+          } else if (response.party == 1) { //If the result is Republican
             console.log('Republican');
             $('#dem').hide();
             $('#confetti').hide();
             $('#rep').show();
             $('#confetti-2').show();
+
+            $('#stats').show();
+            keywordsChart("keywords_chart", response.keywords, response.key_pos, response.key_neg);
+            polarityChart("polarity_chart", response.total_pos, total_neg);
 
           } else { //Error handling
             $('#rep').hide();
@@ -98,14 +115,15 @@
             $('#confetti').hide();
             $('#confetti-2').hide();
             $('#alerts').show();
+            $('#stats').hide();
 
-            if (data.msg == -1) {
+            if (response.msg == -1) {
               $('#error-message').text('Handle does not exist. Please enter another handle.');
 
-            } else if (data.msg == -2) {
+            } else if (response.msg == -2) {
               $('#error-message').text('Tweets are protected. They cannot be accessed.');
 
-            } else if (data.msg == -3) {
+            } else if (response.msg == -3) {
               $('#error-message').text('This handle does not have enough tweets to make a prediction. Please enter another handle.');
 
             } else {

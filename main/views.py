@@ -27,59 +27,59 @@ def getParty(request):
         hndle = request.GET.get('handle')
         print('Handle: ' + hndle)
 
-        if handle_exists(hndle):
-            test = Handle.objects.get(handle = hndle)
-            data['party'] = test.party
-            data['msg'] = 1
+        # if handle_exists(hndle):
+        #     test = Handle.objects.get(handle = hndle)
+        #     data['party'] = test.party
+        #     data['msg'] = 1
 
-        else:
-            start_time = timer()
-            code, tweets, tweet_objs = get_tweets(hndle)
-            end_time = timer()
+        # else:
+        start_time = timer()
+        code, tweets, tweet_objs = get_tweets(hndle)
+        end_time = timer()
 
-            print("Time taken to get tweets: " + str(end_time-start_time))
+        print("Time taken to get tweets: " + str(end_time-start_time))
+        print()
+
+        if code == -1:
+            data['msg'] = -1  #Handle doesn't exist
+
+        elif code == -2:
+            data['msg'] = -2 #Tweets are protected and not accessible
+
+        elif code == -3:
+            data['msg'] = -3 #Number of tweets is not 100
+
+        elif code == 0:
+
+            start_time2 = timer()
+            keywords, pos, neg, total_pos, total_neg = get_keywords(list(tweets))
+            top_hashtags, hashcounts = get_hashtags(tweet_objs)
+            end_time2 = timer()
+
+            print("Time taken to get stats: " + str(end_time2-start_time2))
             print()
 
-            if code == -1:
-                data['msg'] = -1  #Handle doesn't exist
+            data['keywords'] = keywords
+            data['key_pos'] = pos
+            data['key_neg'] = neg
+            data['total_pos'] = total_pos
+            data['total_neg'] = total_neg
+            data['hashtags'] = top_hashtags
+            data['hashtag_count'] = hashcounts
 
-            elif code == -2:
-                data['msg'] = -2 #Tweets are protected and not accessible
+            pre_time1 = timer()
+            data['party'] = predict(tweets)
+            pre_time2 = timer()
+            print("Time taken to predict: " + str(pre_time2-pre_time1))
+            print()
 
-            elif code == -3:
-                data['msg'] = -3 #Number of tweets is not 100
+            if data['party'] == 1:
+                data['msg'] == "Republican"
 
-            elif code == 0:
+            else:
+                data['msg'] == "Democrat"
 
-                start_time2 = timer()
-                keywords, pos, neg, total_pos, total_neg = get_keywords(list(tweets))
-                top_hashtags, hashcounts = get_hashtags(tweet_objs)
-                end_time2 = timer()
-
-                print("Time taken to get stats: " + str(end_time2-start_time2))
-                print()
-
-                data['keywords'] = keywords
-                data['key_pos'] = pos
-                data['key_neg'] = neg
-                data['total_pos'] = total_pos
-                data['total_neg'] = total_neg
-                data['hashtags'] = top_hashtags
-                data['hashtag_count'] = hashcounts
-
-                pre_time1 = timer()
-                data['party'] = predict(tweets)
-                pre_time2 = timer()
-                print("Time taken to predict: " + str(pre_time2-pre_time1))
-                print()
-
-                if data['party'] == 1:
-                    data['msg'] == "Republican"
-
-                else:
-                    data['msg'] == "Democrat"
-
-                new_handle = Handle(handle=hndle, party=data['party'])
-                new_handle.save()
+            # new_handle = Handle(handle=hndle, party=data['party'])
+            # new_handle.save()
 
     return JsonResponse(data)
