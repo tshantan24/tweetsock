@@ -1,0 +1,1 @@
+web: gunicorn tweetsock.wsgi --log-file -
