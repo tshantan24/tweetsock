@@ -248,5 +248,4 @@ function resetCanvas(canvas_id) {
     canvas = $(id);
     canvas.remove();
     $('#stats').append('<canvas id="'+ canvas_id + '"></canvas><br>');
-    console.log('Reset done: ' + canvas_id)
 }
