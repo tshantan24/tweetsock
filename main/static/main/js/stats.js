@@ -46,7 +46,7 @@ function polarityChart(chart_id, positive, negative) {
             },
 
             tooltips: {
-                enabled: false,
+                enabled: true,
             },
         }
     });
@@ -74,7 +74,7 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
         },
 
         tooltips: {
-            enabled: false,
+            enabled: true,
         },
 
         hover :{
@@ -117,11 +117,6 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
                     var meta = chartInstance.controller.getDatasetMeta(i);
                     Chart.helpers.each(meta.data.forEach(function (bar, index) {
                         data = dataset.data[index];
-                        // if(i==0){
-                        //     ctx.fillText(data, 50, bar._model.y+4);
-                        // } else {
-                        //     ctx.fillText(data, bar._model.x-25, bar._model.y+4);
-                        // }
                     }),this)
                 }),this);
             }
@@ -153,4 +148,105 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
         },
         options: barOptions_stacked 
     });
+}
+
+
+function hashtagChart(canvas_id, hashtags, hashcount){
+
+    var ctx = document.getElementById(canvas_id);
+
+    var barOptions_stacked = {
+
+        plugins: {
+            datalabels: {
+                color: '#FFFFFF',
+            }
+        },
+
+        responsive: true,
+
+        title: {
+            display: true,
+            text: "Top 5 most used hashtags",
+            fontSize: 15,
+
+        },
+
+        tooltips: {
+            enabled: true,
+        },
+
+        hover :{
+            animationDuration:0,
+        },
+
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                },
+                stacked: true,
+            }],
+
+            yAxes: [{
+                gridLines: {
+                    display:false,
+                },
+                stacked: true,
+                scaleLabel: {
+                    fontStyle: "bold",
+                },
+            }]
+        },
+
+        legend: {
+            display: true,
+            labels: ['Hashtags']
+        },
+
+        animation: {
+            onComplete: function () {
+                var chartInstance = this.chart;
+                var ctx = chartInstance.ctx;
+                ctx.textAlign = "left";
+                ctx.font = "9px Open Sans";
+                ctx.fillStyle = "#fff";
+
+                Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
+                    var meta = chartInstance.controller.getDatasetMeta(i);
+                    Chart.helpers.each(meta.data.forEach(function (bar, index) {
+                        data = dataset.data[index];
+                    }),this)
+                }),this);
+            }
+        },
+
+        pointLabelFontFamily : "Quadon Extra Bold",
+
+        scaleFontFamily : "Quadon Extra Bold",
+
+    };
+
+    var myChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: hashtags,
+
+            datasets: [{
+                label: 'Hashtags',
+                data: hashcount,
+                backgroundColor: "#FF1493",
+                hoverBackgroundColor: "#FF69B4"
+            }]
+        },
+        options: barOptions_stacked
+    });
+}
+
+function resetCanvas(canvas_id) {
+    id = "#" + canvas_id
+    canvas = $(id);
+    canvas.remove();
+    $('#stats').append('<canvas id="'+ canvas_id + '"></canvas><br>');
+    console.log('Reset done: ' + canvas_id)
 }

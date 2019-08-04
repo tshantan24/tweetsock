@@ -34,6 +34,7 @@
     <div id="stats" class="row hidden">
       <h2 style="display: block; margin:auto; width:50%; text-align:center;">STATISTICS</h2>
       <canvas id="keywords_chart"></canvas><br>
+      <canvas id="hashtag_chart"></canvas><br>
       <canvas id="polarity_chart"></canvas><br>
     </div>
 
@@ -41,7 +42,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script> -->
     <script type="text/javascript" src="{% static 'main/js/stats.js' %}"></script> 
     <script>
       $(document).ready(function() {
@@ -64,6 +65,9 @@
         $('#confetti-2').hide();
         $('#alerts').hide();
         $('#stats').hide();
+        resetCanvas("keywords_chart");
+        resetCanvas("hashtag_chart");
+        resetCanvas("polarity_chart");
 
       });
     </script>
@@ -96,7 +100,7 @@
             $('#stats').show();
             keywordsChart("keywords_chart", response.keywords, response.key_pos, response.key_neg);
             polarityChart("polarity_chart", response.total_pos, response.total_neg);
-
+            hashtagChart("hashtag_chart", response.hashtags, response.hashtag_count);
 
           } else if (response.party == 1) { //If the result is Republican
             console.log('Republican');
@@ -107,7 +111,9 @@
 
             $('#stats').show();
             keywordsChart("keywords_chart", response.keywords, response.key_pos, response.key_neg);
-            polarityChart("polarity_chart", response.total_pos, total_neg);
+            polarityChart("polarity_chart", response.total_pos, response.total_neg);
+            hashtagChart("hashtag_chart", response.hashtags, response.hashtag_count);
+
 
           } else { //Error handling
             $('#rep').hide();
