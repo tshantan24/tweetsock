@@ -86,7 +86,7 @@
           'handle': handle,
           },
         }).done(function(response) {
-//           console.log(response);
+          console.log(response);
           $('#load').hide();
           $('#alerts').hide();
           $('#stats').hide();
@@ -122,8 +122,9 @@
             $('#dem').hide();
             $('#confetti').hide();
             $('#confetti-2').hide();
-            $('#alerts').show();
             $('#stats').hide();
+            console.log("Error handling: " + response.msg);
+            $('#alerts').show();
 
             if (response.msg == -1) {
               $('#error-message').text('Handle does not exist. Please enter another handle.');
