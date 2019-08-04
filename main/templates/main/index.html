@@ -19,7 +19,7 @@
 
     <div id="alerts" class="row hidden">
       <div class="alert">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <span class="closebtn" id="closebtn">&times;</span>
         <span id="error-message"></span>
       </div>
     </div>
@@ -57,6 +57,11 @@
         $('#alerts').hide();
         $('#stats').hide();
 
+      });
+      
+      $('#closebtn').on('click', function(e) {
+        $('#alerts').hide();
+        
       });
 
       $('#handle').focus(function(e) {
