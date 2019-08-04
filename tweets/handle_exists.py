@@ -25,11 +25,11 @@ def get_keywords(tweets):
     for c in tweets:
         polarity = TextBlob(c).sentiment.polarity
 
-        if polarity >= 0:
-            pos += 1
-
-        elif polarity <= 0:
+        if polarity < 0:
             neg += 1
+
+        else:
+            pos += 1
 
     total_string = " ".join(tweets)
     r = Rake(ranking_metric=Metric.WORD_FREQUENCY,max_length=2)
