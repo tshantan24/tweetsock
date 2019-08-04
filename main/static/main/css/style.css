@@ -50,6 +50,7 @@ body {
   }
 #stats-title{
   font-size: 35px;
+  line-height: 0.1;
   }
   .col{
     width: 100vh%
@@ -75,7 +76,12 @@ body {
   #polarity_chart{
     background-color: #1DA1F2;
   } */
-
+  #confetti-2{
+    bottom: 100px;		  
+  }
+  #confetti{
+    bottom: 100px;		  
+  }	
 }
 
 
