@@ -50,7 +50,6 @@ body {
   }
 #stats-title{
   font-size: 35px;
-
   }
   .col{
     width: 100vh%
@@ -62,7 +61,7 @@ body {
     width: 100%;
   }
   #maincont{
-    width: 80% !important;
+    width: 100% !important;
   }
   #search-div i{
     margin-left: -10px;
@@ -115,8 +114,8 @@ body {
 
 #rep{
     position: relative;
-    height: 50%;
-    width: 50%;
+    height: 70%;
+    width: 70%;
     margin: 100px auto;
     bottom: 100px;
 }
