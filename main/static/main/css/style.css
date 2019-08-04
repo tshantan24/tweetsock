@@ -35,6 +35,9 @@ body {
     margin: auto;
 }
 @media screen and (max-width: 450px) {
+  html{
+    line-height: 0.5;
+  }
   #HELLO{
     font-size: 100px;
   }
@@ -50,7 +53,6 @@ body {
   }
 #stats-title{
   font-size: 35px;
-  line-height: 0;
   }
   .col{
     width: 100vh%
@@ -77,10 +79,10 @@ body {
     background-color: #1DA1F2;
   } */
   #confetti-2{
-    bottom: 100px;		  
+    bottom: 100px !important;		  
   }
   #confetti{
-    bottom: 100px;		  
+    bottom: 100px !important;		  
   }	
 }
 
