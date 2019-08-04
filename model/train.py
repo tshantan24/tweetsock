@@ -8,9 +8,11 @@ from string import punctuation
 from tensorflow.keras import Sequential
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.compat.v1.keras.layers import CuDNNLSTM
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.layers import Dense, Dropout, Activation, Embedding, CuDNNLSTM, Bidirectional
+from tensorflow.keras.layers import Dense, Dropout, Activation, Embedding, Bidirectional
+
 
 PUNCTUATION = punctuation + "—\n\t"
 regex = re.compile('[%s]' % re.escape(PUNCTUATION))
