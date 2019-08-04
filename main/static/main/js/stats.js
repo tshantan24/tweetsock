@@ -13,9 +13,12 @@ function polarityChart(chart_id, positive, negative) {
         labels: [
             'Positive Tweets',
             'Negative Tweets'
-        ]
+        ],
+        labels : {
+          fontColor: "black"
+        }
     };
-    
+
     var myDoughnutChart = new Chart(ctx, {
         type: 'doughnut',
         data: data,
@@ -27,8 +30,21 @@ function polarityChart(chart_id, positive, negative) {
                 display: true,
                 text: "Polarity of tweets",
                 fontSize: 15,
+                fontColor: "black"
 
             },
+            // scales: {
+            //     xAxes: [{
+            //       ticks: {
+            //         fontColor: "black"
+            //       },
+            //     }],
+            //     yAxes: [{
+            //       ticks: {
+            //         fontColor: "black"
+            //       },
+            //
+            //     }]},
 
             plugins: {
                 datalabels: {
@@ -55,7 +71,7 @@ function polarityChart(chart_id, positive, negative) {
 function keywordsChart(canvas_id, keywords, key_pos, key_neg){
 
     var ctx = document.getElementById(canvas_id);
-    
+
     var barOptions_stacked = {
 
         plugins: {
@@ -70,6 +86,8 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
             display: true,
             text: "Polarity of top 5 keywords",
             fontSize: 15,
+            fontColor: "black"
+
 
         },
 
@@ -85,8 +103,12 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
             xAxes: [{
                 gridLines: {
                     display: false,
-                }, 
+                },
                 stacked: true,
+                ticks: {
+                  fontColor: "black"
+                }
+
             }],
 
             yAxes: [{
@@ -94,6 +116,9 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
                     display:false,
                 },
                 stacked: true,
+                ticks: {
+                  fontColor: "black"
+                },
                 scaleLabel: {
                     fontStyle: "bold",
                 },
@@ -126,14 +151,13 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
 
         scaleFontFamily : "Quadon Extra Bold",
 
-        
+
     };
 
     var myChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: {
             labels: keywords,
-            
             datasets: [{
                 label: 'Positive Tweets',
                 data: key_pos,
@@ -146,7 +170,7 @@ function keywordsChart(canvas_id, keywords, key_pos, key_neg){
                 hoverBackgroundColor: "#C24641"
             }]
         },
-        options: barOptions_stacked 
+        options: barOptions_stacked
     });
 }
 
@@ -169,6 +193,8 @@ function hashtagChart(canvas_id, hashtags, hashcount){
             display: true,
             text: "Top 5 most used hashtags",
             fontSize: 15,
+            fontColor: "black"
+
 
         },
 
@@ -186,6 +212,9 @@ function hashtagChart(canvas_id, hashtags, hashcount){
                     display: false,
                 },
                 stacked: true,
+                ticks: {
+                  fontColor: "black"
+                },
             }],
 
             yAxes: [{
@@ -193,6 +222,9 @@ function hashtagChart(canvas_id, hashtags, hashcount){
                     display:false,
                 },
                 stacked: true,
+                ticks: {
+                  fontColor: "black"
+                },
                 scaleLabel: {
                     fontStyle: "bold",
                 },
@@ -201,7 +233,10 @@ function hashtagChart(canvas_id, hashtags, hashcount){
 
         legend: {
             display: true,
-            labels: ['Hashtags']
+            labels: ['Hashtags'],
+            labels : {
+              fontColor: "black"
+            }
         },
 
         animation: {
