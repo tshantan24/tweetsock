@@ -1,6 +1,6 @@
 body {
     background: url('../../main/images/birds.png');
-    background-size: 100% auto; 
+    background-size: 100% auto;
     overflow-y: auto;
 }
 
@@ -9,6 +9,7 @@ body {
     width: 58% !important;
     overflow: auto;
 }
+
 
 
 #search-div {
@@ -33,6 +34,40 @@ body {
     width: 100%;
     margin: auto;
 }
+@media screen and (max-width: 400px) {
+  #HELLO{
+    font-size: 100px;
+  }
+  #result{
+    height: 30vh%;
+    width: 100vh%;
+  }
+  body{
+    background: url('../../main/images/bluegrad.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+#stats-title{
+  font-size: 35px;
+
+  }
+  .col{
+    width: 100vh%
+  }
+  #hashtag_chart{
+    font-size: 2px;
+  }
+  #search-div{
+    width: 100%;
+  }
+  #maincont{
+    width: 80% !important;
+  }
+  #search-div i{
+    margin-left: -10px;
+  }
+}
+
 
 .left, .right {
     display: inline-block;
@@ -88,7 +123,7 @@ body {
     background-color: #f44336;
     color: white;
 }
-  
+
 .closebtn {
     margin-left: 15px;
     color: white;
@@ -99,7 +134,7 @@ body {
     cursor: pointer;
     transition: 0.3s;
 }
-  
+
 .closebtn:hover {
     color: black;
 }
@@ -107,7 +142,7 @@ body {
 #result {
     /* Set a specific height */
     /* min-height: 500px;  */
-  
+
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
