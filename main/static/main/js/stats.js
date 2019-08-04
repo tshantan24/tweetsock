@@ -14,9 +14,6 @@ function polarityChart(chart_id, positive, negative) {
             'Positive Tweets',
             'Negative Tweets'
         ],
-        labels : {
-          fontColor: "black"
-        }
     };
 
     var myDoughnutChart = new Chart(ctx, {
@@ -32,33 +29,6 @@ function polarityChart(chart_id, positive, negative) {
                 fontSize: 15,
                 fontColor: "black"
 
-            },
-            // scales: {
-            //     xAxes: [{
-            //       ticks: {
-            //         fontColor: "black"
-            //       },
-            //     }],
-            //     yAxes: [{
-            //       ticks: {
-            //         fontColor: "black"
-            //       },
-            //
-            //     }]},
-
-            plugins: {
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        let sum = 0;
-                        let dataArr = ctx.chart.data.datasets[0].data;
-                        dataArr.map(data => {
-                            sum += data;
-                        });
-                        let percentage = (value*100 / sum).toFixed(2)+"%";
-                        return percentage;
-                    },
-                    color: '#FFFFFF',
-                }
             },
 
             tooltips: {
