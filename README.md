@@ -4,7 +4,7 @@ Tweetsock is an app which uses an RNN to predict a person's political affiliatio
 
 ## Usage
 
-<img src="https://media.giphy.com/media/Y1SfIGXDQoRyO2XmWv/giphy.gif" height="200", width="500" style="margin:auto;">
+<img src="https://media.giphy.com/media/Y1SfIGXDQoRyO2XmWv/giphy.gif" height="200", width="500" style="margin:auto;" />
 
 
 
