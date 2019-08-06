@@ -14,9 +14,6 @@ function polarityChart(chart_id, positive, negative) {
             'Positive Tweets',
             'Negative Tweets'
         ],
-        labels: {
-            fontColor: 'black';
-        }
     };
 
     var myDoughnutChart = new Chart(ctx, {
@@ -25,6 +22,9 @@ function polarityChart(chart_id, positive, negative) {
         options: {
             responsive: true,
             // maintainAspectRatio: false,
+            legend: {
+              display: false
+            },
 
             title: {
                 display: true,
