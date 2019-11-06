@@ -39,8 +39,6 @@ def getParty(request):
 
         print("Time taken to get tweets: " + str(end_time-start_time))
         print()
-        print("Length of tweets: {}".format(len(tweets)))
-        print()
 
         if code == -1:
             data['msg'] = -1  #Handle doesn't exist
@@ -57,7 +55,8 @@ def getParty(request):
             keywords, pos, neg, total_pos, total_neg = get_keywords(list(tweets))
             top_hashtags, hashcounts = get_hashtags(tweet_objs)
             end_time2 = timer()
-
+            print("Length of tweets: {}".format(len(tweets)))
+            print()
             print("Time taken to get stats: " + str(end_time2-start_time2))
             print()
 
