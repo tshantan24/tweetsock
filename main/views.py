@@ -39,6 +39,8 @@ def getParty(request):
 
         print("Time taken to get tweets: " + str(end_time-start_time))
         print()
+        print("Length of tweets: {}".format(len(tweets)))
+        print()
 
         if code == -1:
             data['msg'] = -1  #Handle doesn't exist
