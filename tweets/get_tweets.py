@@ -14,7 +14,7 @@ api = tweepy.API(auth)
 
 def get_tweets(handle):
 	try:
-		tweet_objs = [tweet for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(300) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
+		tweet_objs = [tweet for tweet in tweepy.Cursor(api.user_timeline, screen_name=handle, tweet_mode='extended').items(400) if (not tweet.retweeted) and ('RT @' not in tweet.full_text)]
 		tweets = [tweet.full_text for tweet in tweet_objs]
 
 	except tweepy.TweepError as e:
@@ -28,7 +28,7 @@ def get_tweets(handle):
 	print("Len of tweets: " + str(len(tweets)))
 	print()
 
-	if len(tweets)<120:
+	if len(tweets)<65:
 		return -3, None, None	#if number of tweets is not 100
 		
 	return 0, pd.Series(tweets), tweet_objs
