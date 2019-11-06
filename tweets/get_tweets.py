@@ -28,7 +28,7 @@ def get_tweets(handle):
 	print("Len of tweets: " + str(len(tweets)))
 	print()
 
-	if len(tweets)<70:
+	if len(tweets)<120:
 		return -3, None, None	#if number of tweets is not 100
 		
 	return 0, pd.Series(tweets), tweet_objs
